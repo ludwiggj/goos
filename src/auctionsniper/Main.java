@@ -58,7 +58,7 @@ public class Main {
     this.notToBeGCd = chat;
 
     // Here's the join message
-    chat.sendMessage(new Message());
+    chat.sendMessage(JOIN_COMMAND_FORMAT);
   }
 
   private static XMPPConnection connection(String hostname, String username, String password) throws XMPPException {
