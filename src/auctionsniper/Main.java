@@ -9,6 +9,8 @@ import org.jivesoftware.smack.packet.Message;
 
 import javax.swing.*;
 
+import static auctionsniper.ui.MainWindow.STATUS_LOST;
+
 public class Main {
   private static final int ARG_HOSTNAME = 0;
   private static final int ARG_USERNAME = 1;
@@ -21,6 +23,7 @@ public class Main {
 
 
   private MainWindow ui;
+  @SuppressWarnings("unused") private Chat notToBeGCd;
 
   public Main() throws Exception {
     startUserInterface();
@@ -31,19 +34,33 @@ public class Main {
 
     // Only connect to auction after UI has started and "settled down"
     // The following represents the sniper joining the auction
-    XMPPConnection connection = connectTo(args[ARG_HOSTNAME], args[ARG_USERNAME], args[ARG_PASSWORD]);
+    main.joinAuction(
+        connection(args[ARG_HOSTNAME], args[ARG_USERNAME], args[ARG_PASSWORD]),
+        args[ARG_ITEM_ID]
+    );
+  }
+
+  private void joinAuction(XMPPConnection connection, String itemId) throws XMPPException {
     Chat chat = connection.getChatManager().createChat(
-        auctionId(args[ARG_ITEM_ID], connection),
+        auctionId(itemId, connection),
         new MessageListener() {
+          // Handle message sent to Sniper over the chat - at the moment
+          // this is just an empty message indicating the sniper has lost
           public void processMessage(Chat chat, Message message) {
-            // nothing yet
+            SwingUtilities.invokeLater(new Runnable() {
+              public void run() {
+                ui.showStatus(STATUS_LOST);
+              }
+            });
           }
         });
+    this.notToBeGCd = chat;
+
     // Here's the join message
     chat.sendMessage(new Message());
   }
 
-  private static XMPPConnection connectTo(String hostname, String username, String password) throws XMPPException {
+  private static XMPPConnection connection(String hostname, String username, String password) throws XMPPException {
     XMPPConnection connection = new XMPPConnection(hostname);
     connection.connect();
     connection.login(username, password, AUCTION_RESOURCE);
