@@ -92,4 +92,8 @@ public class Main implements SniperListener {
       }
     });
   }
+
+  public void sniperBidding() {
+    //TODO: Auto-generated
+  }
 }
