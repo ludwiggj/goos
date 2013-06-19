@@ -1,11 +1,17 @@
 package auctionsniper;
 
-public class AuctionSniper {
+public class AuctionSniper implements AuctionEventListener {
+  private SniperListener sniperListener;
+
   public AuctionSniper(SniperListener sniperListener) {
-    //TODO: Auto-generated
+    this.sniperListener = sniperListener;
   }
 
   public void auctionClosed() {
+    sniperListener.sniperLost();
+  }
+
+  public void currentPrice(int price, int increment) {
     //TODO: Auto-generated
   }
 }
