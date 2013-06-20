@@ -25,7 +25,8 @@ public class Main implements SniperListener {
   public static final String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
 
   private MainWindow ui;
-  @SuppressWarnings("unused") private Chat notToBeGCd;
+  @SuppressWarnings("unused")
+  private Chat notToBeGCd;
 
   public Main() throws Exception {
     startUserInterface();
@@ -47,20 +48,13 @@ public class Main implements SniperListener {
     final Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), null);
     this.notToBeGCd = chat;
 
-    Auction auction = new Auction() {
-      public void bid(int amount) {
-        try {
-          chat.sendMessage(String.format(BID_COMMAND_FORMAT, amount));
-        } catch (XMPPException e) {
-          e.printStackTrace();
-        }
-      }
-    };
+    Auction auction = new XMPPAuction(chat);
+
     // set the chat message listener after construction
     chat.addMessageListener(new AuctionMessageTranslator(new AuctionSniper(auction, this)));
 
     // Here's the join message
-    chat.sendMessage(JOIN_COMMAND_FORMAT);
+    auction.join();
   }
 
   private void disconnectWhenUICloses(final XMPPConnection connection) {
