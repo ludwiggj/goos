@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import static auctionsniper.ui.MainWindow.STATUS_BIDDING;
 import static auctionsniper.ui.MainWindow.STATUS_LOST;
 
 public class Main implements SniperListener {
@@ -43,11 +44,20 @@ public class Main implements SniperListener {
 
   private void joinAuction(XMPPConnection connection, String itemId) throws XMPPException {
     disconnectWhenUICloses(connection);
-    Chat chat = connection.getChatManager().createChat(
-        auctionId(itemId, connection),
-        new AuctionMessageTranslator(new AuctionSniper(this))
-        );
+    final Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), null);
     this.notToBeGCd = chat;
+
+    Auction auction = new Auction() {
+      public void bid(int amount) {
+        try {
+          chat.sendMessage(String.format(BID_COMMAND_FORMAT, amount));
+        } catch (XMPPException e) {
+          e.printStackTrace();
+        }
+      }
+    };
+    // set the chat message listener after construction
+    chat.addMessageListener(new AuctionMessageTranslator(new AuctionSniper(auction, this)));
 
     // Here's the join message
     chat.sendMessage(JOIN_COMMAND_FORMAT);
@@ -94,6 +104,10 @@ public class Main implements SniperListener {
   }
 
   public void sniperBidding() {
-    //TODO: Auto-generated
+    SwingUtilities.invokeLater(new Runnable() {
+      public void run() {
+        ui.showStatus(STATUS_BIDDING);
+      }
+    });
   }
 }
