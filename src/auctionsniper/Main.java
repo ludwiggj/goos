@@ -12,7 +12,7 @@ import java.awt.event.WindowEvent;
 import static auctionsniper.ui.MainWindow.STATUS_BIDDING;
 import static auctionsniper.ui.MainWindow.STATUS_LOST;
 
-public class Main implements SniperListener {
+public class Main {
   private static final int ARG_HOSTNAME = 0;
   private static final int ARG_USERNAME = 1;
   private static final int ARG_PASSWORD = 2;
@@ -51,7 +51,7 @@ public class Main implements SniperListener {
     Auction auction = new XMPPAuction(chat);
 
     // set the chat message listener after construction
-    chat.addMessageListener(new AuctionMessageTranslator(new AuctionSniper(auction, this)));
+    chat.addMessageListener(new AuctionMessageTranslator(new AuctionSniper(auction, new SniperStateDisplayer())));
 
     // Here's the join message
     auction.join();
@@ -89,19 +89,21 @@ public class Main implements SniperListener {
     //TODO: Auto-generated
   }
 
-  public void sniperLost() {
-    SwingUtilities.invokeLater(new Runnable() {
-      public void run() {
-        ui.showStatus(STATUS_LOST);
-      }
-    });
-  }
+  public class SniperStateDisplayer implements SniperListener {
+    public void sniperLost() {
+      showStatus(STATUS_LOST);
+    }
 
-  public void sniperBidding() {
-    SwingUtilities.invokeLater(new Runnable() {
-      public void run() {
-        ui.showStatus(STATUS_BIDDING);
-      }
-    });
+    public void sniperBidding() {
+      showStatus(STATUS_BIDDING);
+    }
+
+    private void showStatus(final String status) {
+      SwingUtilities.invokeLater(new Runnable() {
+        public void run() {
+          ui.showStatus(status);
+        }
+      });
+    }
   }
 }
