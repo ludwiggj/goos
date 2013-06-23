@@ -2,9 +2,7 @@ package test.endtoend.auctionsniper;
 
 import auctionsniper.Main;
 
-import static auctionsniper.ui.MainWindow.STATUS_JOINING;
-import static auctionsniper.ui.MainWindow.STATUS_LOST;
-import static auctionsniper.ui.MainWindow.STATUS_BIDDING;
+import static auctionsniper.ui.MainWindow.*;
 import static test.endtoend.auctionsniper.FakeAuctionServer.XMPP_HOSTNAME;
 
 public class ApplicationRunner {
@@ -43,5 +41,13 @@ public class ApplicationRunner {
 
   public void hasShownSniperIsBidding() {
     driver.showsSniperStatus(STATUS_BIDDING);
+  }
+
+  public void hasShownSniperIsWinning() {
+    driver.showsSniperStatus(STATUS_WINNING);
+  }
+
+  public void showsSniperHasWonAuction() {
+    driver.showsSniperStatus(STATUS_WON);
   }
 }
