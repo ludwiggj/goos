@@ -1,14 +1,13 @@
 package test.endtoend.auctionsniper;
 
+import auctionsniper.AuctionSniper;
 import auctionsniper.Main;
 
 import static auctionsniper.ui.MainWindow.*;
 import static test.endtoend.auctionsniper.FakeAuctionServer.XMPP_HOSTNAME;
 
 public class ApplicationRunner {
-  public static final String SNIPER_ID = "sniper";
-  public static final String SNIPER_PASSWORD = "sniper";
-  public static final String SNIPER_XMPP_ID = SNIPER_ID + "@" + XMPP_HOSTNAME + "/Auction";
+  public static final String SNIPER_XMPP_ID = AuctionSniper.SNIPER_ID + "@" + XMPP_HOSTNAME + "/Auction";
 
   private AuctionSniperDriver driver;
 
@@ -17,7 +16,7 @@ public class ApplicationRunner {
       @Override
       public void run() {
         try {
-          Main.main(XMPP_HOSTNAME, SNIPER_ID, SNIPER_PASSWORD, auction.getItemId());
+          Main.main(XMPP_HOSTNAME, AuctionSniper.SNIPER_ID, AuctionSniper.SNIPER_PASSWORD, auction.getItemId());
         } catch (Exception e) {
           e.printStackTrace();
         }
