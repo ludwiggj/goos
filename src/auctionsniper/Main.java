@@ -98,6 +98,10 @@ public class Main {
       showStatus(STATUS_BIDDING);
     }
 
+    public void sniperWinning() {
+      //TODO: Auto-generated
+    }
+
     private void showStatus(final String status) {
       SwingUtilities.invokeLater(new Runnable() {
         public void run() {
