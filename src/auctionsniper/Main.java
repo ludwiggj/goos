@@ -11,6 +11,7 @@ import java.awt.event.WindowEvent;
 
 import static auctionsniper.ui.MainWindow.STATUS_BIDDING;
 import static auctionsniper.ui.MainWindow.STATUS_LOST;
+import static auctionsniper.ui.MainWindow.STATUS_WINNING;
 
 public class Main {
   private static final int ARG_HOSTNAME = 0;
@@ -99,7 +100,7 @@ public class Main {
     }
 
     public void sniperWinning() {
-      //TODO: Auto-generated
+      showStatus(STATUS_WINNING);
     }
 
     private void showStatus(final String status) {

@@ -40,7 +40,6 @@ public class AuctionSniperTest {
   @Test
   public void reportsIsWinningWhenCurrentPriceComesFromSniper() {
     context.checking(new Expectations() {{
-      one(auction).bid(1026);
       atLeast(1).of(sniperListener).sniperWinning();
     }});
     sniper.currentPrice(1001, 25, PriceSource.FromSniper);
