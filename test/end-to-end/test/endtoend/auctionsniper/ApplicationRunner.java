@@ -27,11 +27,11 @@ public class ApplicationRunner {
     thread.setDaemon(true);
     thread.start();
     driver = new AuctionSniperDriver(1000);
-    driver.showsSniperStatus(itemId, -1, -1, STATUS_JOINING);
+    driver.showsSniperStatus(itemId, STATUS_JOINING);
   }
 
-  public void showsSniperHasLostAuction() {
-    driver.showsSniperStatus(itemId, -1, -1, STATUS_LOST);
+  public void showsSniperHasLostAuction(int lastPrice, int lastBid) {
+    driver.showsSniperStatus(itemId, lastPrice, lastBid, STATUS_LOST);
   }
 
   public void stop() {

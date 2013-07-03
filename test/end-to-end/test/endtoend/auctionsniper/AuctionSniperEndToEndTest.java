@@ -13,27 +13,35 @@ public class AuctionSniperEndToEndTest {
     application.startBiddingIn(auction);
     auction.hasReceivedJoinRequestFromSniper(ApplicationRunner.SNIPER_XMPP_ID);
     auction.announceClosed();
-    application.showsSniperHasLostAuction();
+    application.showsSniperHasLostAuction(-1, -1);
   }
 
   @Test
   public void sniperMakesAHigherBidButLoses() throws Exception {
+    final int increment = 98;
+    final int currentPrice = 1000;
+    final int raisedBid = currentPrice + increment;
+
     auction.startSellingItem();
     application.startBiddingIn(auction);
     auction.hasReceivedJoinRequestFromSniper(ApplicationRunner.SNIPER_XMPP_ID);
-    auction.reportPrice(1000, 98, "other bidder");
-    application.hasShownSniperIsBidding(0, 0);
-    auction.hasReceivedBid(1098, ApplicationRunner.SNIPER_XMPP_ID);
+    auction.reportPrice(currentPrice, increment, "other bidder");
+    application.hasShownSniperIsBidding(currentPrice, raisedBid);
+    auction.hasReceivedBid(raisedBid, ApplicationRunner.SNIPER_XMPP_ID);
     auction.announceClosed();
-    application.showsSniperHasLostAuction();
+
+    // Sniper loses auction because although he bid highest, the auction hasn't reported this as
+    // the winning bid via auction.reportPrice() - a mistake?
+    application.showsSniperHasLostAuction(currentPrice, raisedBid);
   }
 
   @Test
   public void sniperWindAnAuctionByBiddingHigher() throws Exception {
     final int firstIncrement = 98;
-    final int secondIncrement = 97;
-    final int currentPrice = 1000;
-    final int raisedBid = currentPrice + firstIncrement;
+        final int secondIncrement = 97;
+        final int currentPrice = 1000;
+        final int raisedBid = currentPrice + firstIncrement;
+
     auction.startSellingItem();
     application.startBiddingIn(auction);
     auction.hasReceivedJoinRequestFromSniper(ApplicationRunner.SNIPER_XMPP_ID);

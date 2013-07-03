@@ -1,6 +1,7 @@
 package auctionsniper;
 
 import auctionsniper.ui.MainWindow;
+import auctionsniper.ui.SniperState;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
@@ -50,7 +51,8 @@ public class Main {
     Auction auction = new XMPPAuction(chat);
 
     // set the chat message listener after construction
-    chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(), new AuctionSniper(auction, new SniperStateDisplayer())));
+    chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(),
+        new AuctionSniper(auction, new SniperStateDisplayer(), itemId)));
 
     // Here's the join message
     auction.join();
@@ -93,7 +95,7 @@ public class Main {
       showStatus(STATUS_LOST);
     }
 
-    public void sniperBidding() {
+    public void sniperBidding(SniperState item_id) {
       showStatus(STATUS_BIDDING);
     }
 
