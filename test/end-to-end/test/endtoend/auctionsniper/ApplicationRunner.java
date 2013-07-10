@@ -3,6 +3,7 @@ package test.endtoend.auctionsniper;
 import auctionsniper.AuctionSniper;
 import auctionsniper.Main;
 
+import static auctionsniper.SnipersTableModel.*;
 import static auctionsniper.ui.MainWindow.*;
 import static test.endtoend.auctionsniper.FakeAuctionServer.XMPP_HOSTNAME;
 
@@ -18,7 +19,7 @@ public class ApplicationRunner {
       @Override
       public void run() {
         try {
-          Main.main(XMPP_HOSTNAME, AuctionSniper.SNIPER_ID, AuctionSniper.SNIPER_PASSWORD, auction.getItemId());
+          Main.main(XMPP_HOSTNAME, AuctionSniper.SNIPER_ID, AuctionSniper.SNIPER_PASSWORD, itemId);
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -27,7 +28,10 @@ public class ApplicationRunner {
     thread.setDaemon(true);
     thread.start();
     driver = new AuctionSniperDriver(1000);
-    driver.showsSniperStatus(itemId, STATUS_JOINING);
+
+    //NOTE: Item-id is not shown by UI at this point
+    driver.showsSniperStatus(STARTING_UP_ITEM_ID, STARTING_UP_LAST_PRICE,
+        STARTING_UP_LAST_BID, STATUS_JOINING);
   }
 
   public void showsSniperHasLostAuction(int lastPrice, int lastBid) {

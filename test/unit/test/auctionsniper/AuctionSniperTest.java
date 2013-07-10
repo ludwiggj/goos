@@ -3,7 +3,7 @@ package test.auctionsniper;
 import auctionsniper.Auction;
 import auctionsniper.AuctionSniper;
 import auctionsniper.SniperListener;
-import auctionsniper.ui.SniperState;
+import auctionsniper.SniperState;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.States;
@@ -15,10 +15,11 @@ import static auctionsniper.AuctionEventListener.PriceSource;
 
 @RunWith(JMock.class)
 public class AuctionSniperTest {
+  private static final String ITEM_ID = "dummyItemId";
   private final Mockery context = new Mockery();
   private final SniperListener sniperListener = context.mock(SniperListener.class);
   private final Auction auction = context.mock(Auction.class);
-  private final AuctionSniper sniper = new AuctionSniper(auction, sniperListener, "dummyItemId");
+  private final AuctionSniper sniper = new AuctionSniper(auction, sniperListener, ITEM_ID);
   private final States sniperState = context.states("sniper");
 
   public void reportsLostIfAuctionClosesImmediately() {
@@ -36,7 +37,7 @@ public class AuctionSniperTest {
     context.checking(new Expectations() {{
       one(auction).bid(bid);
       atLeast(1).of(sniperListener).sniperBidding(
-          new SniperState("dummyItemId", price, bid)
+          new SniperState(ITEM_ID, price, bid)
       );
     }});
     sniper.currentPrice(price, increment, PriceSource.FromOtherBidder);

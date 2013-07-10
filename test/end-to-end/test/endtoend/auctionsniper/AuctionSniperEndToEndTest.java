@@ -3,6 +3,9 @@ package test.endtoend.auctionsniper;
 import org.junit.After;
 import org.junit.Test;
 
+import static auctionsniper.SnipersTableModel.STARTING_UP_LAST_BID;
+import static auctionsniper.SnipersTableModel.STARTING_UP_LAST_PRICE;
+
 public class AuctionSniperEndToEndTest {
   private final FakeAuctionServer auction = new FakeAuctionServer("item-54321");
   private final ApplicationRunner application = new ApplicationRunner();
@@ -13,7 +16,9 @@ public class AuctionSniperEndToEndTest {
     application.startBiddingIn(auction);
     auction.hasReceivedJoinRequestFromSniper(ApplicationRunner.SNIPER_XMPP_ID);
     auction.announceClosed();
-    application.showsSniperHasLostAuction(-1, -1);
+
+    // This test currently fails because auction item id is not shown
+    application.showsSniperHasLostAuction(STARTING_UP_LAST_PRICE, STARTING_UP_LAST_BID);
   }
 
   @Test
@@ -36,11 +41,11 @@ public class AuctionSniperEndToEndTest {
   }
 
   @Test
-  public void sniperWindAnAuctionByBiddingHigher() throws Exception {
+  public void sniperWinsAnAuctionByBiddingHigher() throws Exception {
     final int firstIncrement = 98;
-        final int secondIncrement = 97;
-        final int currentPrice = 1000;
-        final int raisedBid = currentPrice + firstIncrement;
+    final int secondIncrement = 97;
+    final int currentPrice = 1000;
+    final int raisedBid = currentPrice + firstIncrement;
 
     auction.startSellingItem();
     application.startBiddingIn(auction);

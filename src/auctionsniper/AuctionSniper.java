@@ -1,7 +1,5 @@
 package auctionsniper;
 
-import auctionsniper.ui.SniperState;
-
 import static auctionsniper.AuctionEventListener.PriceSource.*;
 
 public class AuctionSniper implements AuctionEventListener {

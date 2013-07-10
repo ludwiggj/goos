@@ -1,7 +1,6 @@
 package auctionsniper;
 
 import auctionsniper.ui.MainWindow;
-import auctionsniper.ui.SniperState;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
@@ -95,8 +94,12 @@ public class Main {
       showStatus(STATUS_LOST);
     }
 
-    public void sniperBidding(SniperState item_id) {
-      showStatus(STATUS_BIDDING);
+    public void sniperBidding(final SniperState state) {
+      SwingUtilities.invokeLater(new Runnable() {
+        public void run() {
+          ui.sniperStatusChanged(state, STATUS_BIDDING);
+        }
+      });
     }
 
     public void sniperWinning() {

@@ -1,4 +1,4 @@
-package auctionsniper.ui;
+package auctionsniper;
 
 import com.google.common.base.Objects;
 
