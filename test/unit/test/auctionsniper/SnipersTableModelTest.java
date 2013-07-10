@@ -1,5 +1,6 @@
 package test.auctionsniper;
 
+import auctionsniper.SniperSnapshot;
 import auctionsniper.SniperState;
 import auctionsniper.SnipersTableModel;
 import auctionsniper.ui.Column;
@@ -45,13 +46,13 @@ public class SnipersTableModelTest {
       }
     });
     model.sniperStatusChanged(
-        new SniperState("item id", 555, 666),
-        STATUS_BIDDING);
+        new SniperSnapshot("item id", 555, 666, SniperState.BIDDING)
+    );
 
     assertColumnEquals(ITEM_IDENTIFIER, "item id");
     assertColumnEquals(LAST_PRICE, 555);
     assertColumnEquals(LAST_BID, 666);
-    assertColumnEquals(SNIPER_STATUS, STATUS_BIDDING);
+    assertColumnEquals(SNIPER_STATE, STATUS_BIDDING);
   }
 
   private void assertColumnEquals(Column column, Object expected) {

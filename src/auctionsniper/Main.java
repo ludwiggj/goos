@@ -94,10 +94,10 @@ public class Main {
       showStatus(STATUS_LOST);
     }
 
-    public void sniperBidding(final SniperState state) {
+    public void sniperStateChanged(final SniperSnapshot sniperSnapshot) {
       SwingUtilities.invokeLater(new Runnable() {
         public void run() {
-          ui.sniperStatusChanged(state, STATUS_BIDDING);
+          ui.sniperStatusChanged(sniperSnapshot);
         }
       });
     }
