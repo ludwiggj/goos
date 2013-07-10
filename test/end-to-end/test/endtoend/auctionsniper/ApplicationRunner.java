@@ -3,7 +3,9 @@ package test.endtoend.auctionsniper;
 import auctionsniper.AuctionSniper;
 import auctionsniper.Main;
 
-import static auctionsniper.SnipersTableModel.*;
+import static auctionsniper.SniperSnapshot.INITIAL_LAST_BID;
+import static auctionsniper.SniperSnapshot.INITIAL_LAST_PRICE;
+import static auctionsniper.SnipersTableModel.INITIAL_ITEM_ID;
 import static auctionsniper.ui.MainWindow.*;
 import static test.endtoend.auctionsniper.FakeAuctionServer.XMPP_HOSTNAME;
 
@@ -30,8 +32,8 @@ public class ApplicationRunner {
     driver = new AuctionSniperDriver(1000);
 
     //NOTE: Item-id is not shown by UI at this point
-    driver.showsSniperStatus(STARTING_UP_ITEM_ID, STARTING_UP_LAST_PRICE,
-        STARTING_UP_LAST_BID, STATUS_JOINING);
+    driver.showsSniperStatus(INITIAL_ITEM_ID, INITIAL_LAST_PRICE,
+        INITIAL_LAST_BID, STATUS_JOINING);
   }
 
   public void showsSniperHasLostAuction(int lastPrice, int lastBid) {

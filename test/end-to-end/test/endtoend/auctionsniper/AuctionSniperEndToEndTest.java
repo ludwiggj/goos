@@ -1,10 +1,10 @@
 package test.endtoend.auctionsniper;
 
+import auctionsniper.SniperSnapshot;
 import org.junit.After;
 import org.junit.Test;
 
-import static auctionsniper.SnipersTableModel.STARTING_UP_LAST_BID;
-import static auctionsniper.SnipersTableModel.STARTING_UP_LAST_PRICE;
+import static auctionsniper.SniperSnapshot.INITIAL_LAST_PRICE;
 
 public class AuctionSniperEndToEndTest {
   private final FakeAuctionServer auction = new FakeAuctionServer("item-54321");
@@ -18,7 +18,7 @@ public class AuctionSniperEndToEndTest {
     auction.announceClosed();
 
     // This test currently fails because auction item id is not shown
-    application.showsSniperHasLostAuction(STARTING_UP_LAST_PRICE, STARTING_UP_LAST_BID);
+    application.showsSniperHasLostAuction(SniperSnapshot.INITIAL_LAST_BID, INITIAL_LAST_PRICE);
   }
 
   @Test

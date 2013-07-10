@@ -7,13 +7,13 @@ public class AuctionSniper implements AuctionEventListener {
   public static final String SNIPER_PASSWORD = "sniper";
   private final SniperListener sniperListener;
   private final Auction auction;
-  private String itemId;
   private boolean isWinning = false;
+  private SniperSnapshot snapshot;
 
-  public AuctionSniper(Auction auction, SniperListener sniperListener, String itemId) {
+  public AuctionSniper(String itemId, Auction auction, SniperListener sniperListener) {
     this.sniperListener = sniperListener;
     this.auction = auction;
-    this.itemId = itemId;
+    this.snapshot = SniperSnapshot.joining(itemId);
   }
 
   public void auctionClosed() {
@@ -27,12 +27,12 @@ public class AuctionSniper implements AuctionEventListener {
   public void currentPrice(int price, int increment, PriceSource priceSource) {
     isWinning = priceSource == FromSniper;
     if (isWinning) {
-      sniperListener.sniperWinning();
+      snapshot = snapshot.winning(price);
     } else {
       final int bid = price + increment;
       auction.bid(bid);
-      sniperListener.sniperStateChanged(
-          new SniperSnapshot(itemId, price, bid, SniperState.BIDDING));
+      snapshot = snapshot.bidding(price, bid);
     }
+    sniperListener.sniperStateChanged(snapshot);
   }
 }

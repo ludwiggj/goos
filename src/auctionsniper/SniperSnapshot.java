@@ -2,7 +2,14 @@ package auctionsniper;
 
 import com.google.common.base.Objects;
 
+import static auctionsniper.SniperState.BIDDING;
+import static auctionsniper.SniperState.JOINING;
+import static auctionsniper.SniperState.WINNING;
+
 public class SniperSnapshot {
+  public static final int INITIAL_LAST_PRICE = 0;
+  public static final int INITIAL_LAST_BID = 0;
+
   public final String itemId;
   public final int lastPrice;
   public final int lastBid;
@@ -39,5 +46,21 @@ public class SniperSnapshot {
         .add("lastPrice", lastPrice)
         .add("lastBid", lastBid)
         .toString();
+  }
+
+  public static SniperSnapshot joining(String itemId) {
+    return new SniperSnapshot(itemId, INITIAL_LAST_PRICE, INITIAL_LAST_BID, JOINING);
+  }
+
+  public SniperSnapshot bidding(int newLastPrice, int newLastBid) {
+    return new SniperSnapshot(itemId, newLastPrice, newLastBid, BIDDING);
+  }
+
+  public SniperSnapshot winning(int newLastPrice) {
+    return new SniperSnapshot(itemId, newLastPrice, lastBid, WINNING);
+  }
+
+  public SniperSnapshot setState(String state) {
+    return new SniperSnapshot(itemId, lastPrice, lastBid, SniperState.valueOf(state.toUpperCase()));
   }
 }

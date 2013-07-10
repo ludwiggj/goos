@@ -51,7 +51,7 @@ public class Main {
 
     // set the chat message listener after construction
     chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(),
-        new AuctionSniper(auction, new SniperStateDisplayer(), itemId)));
+        new AuctionSniper(itemId, auction, new SniperStateDisplayer())));
 
     // Here's the join message
     auction.join();
@@ -100,10 +100,6 @@ public class Main {
           ui.sniperStatusChanged(sniperSnapshot);
         }
       });
-    }
-
-    public void sniperWinning() {
-      showStatus(STATUS_WINNING);
     }
 
     public void sniperWon() {

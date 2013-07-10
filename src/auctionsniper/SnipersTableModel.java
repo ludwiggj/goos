@@ -7,14 +7,11 @@ import javax.swing.table.AbstractTableModel;
 import static auctionsniper.ui.MainWindow.*;
 
 public class SnipersTableModel extends AbstractTableModel {
-  public static final String STARTING_UP_ITEM_ID = "";
-  public static final int STARTING_UP_LAST_PRICE = 0;
-  public static final int STARTING_UP_LAST_BID = 0;
+  public static final String INITIAL_ITEM_ID = "";
 
   private static String[] STATUS_TEXT = {STATUS_JOINING, STATUS_BIDDING, STATUS_WINNING, STATUS_LOST, STATUS_WON};
 
-  private SniperSnapshot snapshot =
-      new SniperSnapshot(STARTING_UP_ITEM_ID, STARTING_UP_LAST_PRICE, STARTING_UP_LAST_BID, SniperState.JOINING);
+  private SniperSnapshot snapshot = SniperSnapshot.joining(INITIAL_ITEM_ID);
   private final static int FIRST_ROW = 0;
   private static final int LAST_ROW = 0;
   private String state = STATUS_JOINING;
@@ -44,9 +41,7 @@ public class SnipersTableModel extends AbstractTableModel {
 
   public void setStatusText(String newStatusText) {
     // Kludge follows...
-    SniperSnapshot newSnapshot = new SniperSnapshot(this.snapshot.itemId, this.snapshot.lastPrice,
-        this.snapshot.lastBid, SniperState.valueOf(newStatusText.toUpperCase()));
-    sniperStatusChanged(newSnapshot);
+    sniperStatusChanged(this.snapshot.setState(newStatusText));
   }
 
   public void sniperStatusChanged(SniperSnapshot newSnapshot) {
