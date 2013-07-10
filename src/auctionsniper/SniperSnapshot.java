@@ -60,7 +60,7 @@ public class SniperSnapshot {
     return new SniperSnapshot(itemId, newLastPrice, lastBid, WINNING);
   }
 
-  public SniperSnapshot setState(String state) {
-    return new SniperSnapshot(itemId, lastPrice, lastBid, SniperState.valueOf(state.toUpperCase()));
+  public SniperSnapshot closed() {
+    return new SniperSnapshot(itemId, lastPrice, lastBid, state.whenAuctionClosed());
   }
 }

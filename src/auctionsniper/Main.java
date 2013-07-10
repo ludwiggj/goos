@@ -9,8 +9,6 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import static auctionsniper.ui.MainWindow.*;
-
 public class Main {
   private static final int ARG_HOSTNAME = 0;
   private static final int ARG_USERNAME = 1;
@@ -90,26 +88,10 @@ public class Main {
   }
 
   public class SniperStateDisplayer implements SniperListener {
-    public void sniperLost() {
-      showStatus(STATUS_LOST);
-    }
-
     public void sniperStateChanged(final SniperSnapshot sniperSnapshot) {
       SwingUtilities.invokeLater(new Runnable() {
         public void run() {
           ui.sniperStatusChanged(sniperSnapshot);
-        }
-      });
-    }
-
-    public void sniperWon() {
-      showStatus(STATUS_WON);
-    }
-
-    private void showStatus(final String status) {
-      SwingUtilities.invokeLater(new Runnable() {
-        public void run() {
-          ui.showStatusText(status);
         }
       });
     }

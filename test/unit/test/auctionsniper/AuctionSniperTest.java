@@ -11,8 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static auctionsniper.AuctionEventListener.PriceSource;
-import static auctionsniper.SniperState.BIDDING;
-import static auctionsniper.SniperState.WINNING;
+import static auctionsniper.SniperState.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 @RunWith(JMock.class)
@@ -26,7 +25,8 @@ public class AuctionSniperTest {
 
   public void reportsLostIfAuctionClosesImmediately() {
     context.checking(new Expectations() {{
-      atLeast(1).of(sniperListener).sniperLost();
+      atLeast(1).of(sniperListener).sniperStateChanged(
+                with(aSniperThatHas(LOST)));
     }});
     sniper.auctionClosed();
   }
@@ -67,7 +67,9 @@ public class AuctionSniperTest {
       allowing(sniperListener).sniperStateChanged(
           with(aSniperThatIs(BIDDING)));
               then(sniperState.is("bidding"));
-      atLeast(1).of(sniperListener).sniperLost(); when(sniperState.is("bidding"));
+      atLeast(1).of(sniperListener).sniperStateChanged(
+          with(aSniperThatHas(LOST)));
+              when(sniperState.is("bidding"));
     }});
 
     sniper.currentPrice(1001, 25, PriceSource.FromOtherBidder);
@@ -79,9 +81,11 @@ public class AuctionSniperTest {
     context.checking(new Expectations() {{
       ignoring(auction);
       allowing(sniperListener).sniperStateChanged(
-                with(aSniperThatIs(WINNING)));
-                    then(sniperState.is("winning"));
-      atLeast(1).of(sniperListener).sniperWon(); when(sniperState.is("winning"));
+          with(aSniperThatIs(WINNING)));
+              then(sniperState.is("winning"));
+      atLeast(1).of(sniperListener).sniperStateChanged(
+          with(aSniperThatHas(WON)));
+              when(sniperState.is("winning"));
     }});
 
     sniper.currentPrice(1001, 25, PriceSource.FromSniper);
@@ -89,6 +93,14 @@ public class AuctionSniperTest {
   }
 
   private Matcher<SniperSnapshot> aSniperThatIs(final SniperState state) {
+    return getFeatureMatcher(state);
+  }
+
+  private Matcher<SniperSnapshot> aSniperThatHas(final SniperState state) {
+    return getFeatureMatcher(state);
+  }
+
+  private FeatureMatcher<SniperSnapshot, SniperState> getFeatureMatcher(final SniperState state) {
     return new FeatureMatcher<SniperSnapshot, SniperState>(
         equalTo(state), "sniper that is ", "was")
     {

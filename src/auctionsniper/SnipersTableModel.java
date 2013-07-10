@@ -39,11 +39,6 @@ public class SnipersTableModel extends AbstractTableModel {
     }
   }
 
-  public void setStatusText(String newStatusText) {
-    // Kludge follows...
-    sniperStatusChanged(this.snapshot.setState(newStatusText));
-  }
-
   public void sniperStatusChanged(SniperSnapshot newSnapshot) {
     this.snapshot = newSnapshot;
     this.state = STATUS_TEXT[newSnapshot.state.ordinal()];
