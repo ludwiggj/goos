@@ -68,7 +68,7 @@ public class AuctionSniperTest {
           with(aSniperThatIs(BIDDING)));
               then(sniperState.is("bidding"));
       atLeast(1).of(sniperListener).sniperStateChanged(
-          with(aSniperThatHas(LOST)));
+          new SniperSnapshot(ITEM_ID, 1001, 1026, LOST));
               when(sniperState.is("bidding"));
     }});
 
@@ -84,7 +84,8 @@ public class AuctionSniperTest {
           with(aSniperThatIs(WINNING)));
               then(sniperState.is("winning"));
       atLeast(1).of(sniperListener).sniperStateChanged(
-          with(aSniperThatHas(WON)));
+          // Last Bid is 0 - a test smell!
+          new SniperSnapshot(ITEM_ID, 1001, 0, WON));
               when(sniperState.is("winning"));
     }});
 

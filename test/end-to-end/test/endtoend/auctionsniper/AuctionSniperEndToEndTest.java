@@ -1,9 +1,9 @@
 package test.endtoend.auctionsniper;
 
-import auctionsniper.SniperSnapshot;
 import org.junit.After;
 import org.junit.Test;
 
+import static auctionsniper.SniperSnapshot.INITIAL_LAST_BID;
 import static auctionsniper.SniperSnapshot.INITIAL_LAST_PRICE;
 
 public class AuctionSniperEndToEndTest {
@@ -18,7 +18,7 @@ public class AuctionSniperEndToEndTest {
     auction.announceClosed();
 
     // This test currently fails because auction item id is not shown
-    application.showsSniperHasLostAuction(SniperSnapshot.INITIAL_LAST_BID, INITIAL_LAST_PRICE);
+    application.showsSniperHasLostAuction(INITIAL_LAST_BID, INITIAL_LAST_PRICE);
   }
 
   @Test
