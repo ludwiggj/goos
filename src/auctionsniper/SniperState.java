@@ -1,5 +1,7 @@
 package auctionsniper;
 
+import auctionsniper.util.Defect;
+
 public enum SniperState {
   JOINING {
     @Override public SniperState whenAuctionClosed() { return LOST; }
@@ -15,10 +17,5 @@ public enum SniperState {
 
   public SniperState whenAuctionClosed() {
     throw new Defect("Auction is already closed");
-  }
-
-  private class Defect extends RuntimeException {
-    public Defect(String s) {
-    }
   }
 }
