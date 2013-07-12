@@ -4,7 +4,7 @@ import auctionsniper.ui.Column;
 
 import javax.swing.table.AbstractTableModel;
 
-public class SnipersTableModel extends AbstractTableModel {
+public class SnipersTableModel extends AbstractTableModel implements SniperListener {
   public static final String INITIAL_ITEM_ID = "";
 
   private final static String[] STATUS_TEXT = {
@@ -31,7 +31,7 @@ public class SnipersTableModel extends AbstractTableModel {
     return STATUS_TEXT[state.ordinal()];
   }
 
-  public void sniperStatusChanged(SniperSnapshot newSnapshot) {
+  public void sniperStateChanged(SniperSnapshot newSnapshot) {
     this.snapshot = newSnapshot;
     fireTableRowsUpdated(FIRST_ROW, LAST_ROW);
   }

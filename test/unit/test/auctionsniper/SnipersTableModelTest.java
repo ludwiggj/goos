@@ -45,7 +45,7 @@ public class SnipersTableModelTest {
         one(listener).tableChanged(with(aRowChangedEvent()));
       }
     });
-    model.sniperStatusChanged(
+    model.sniperStateChanged(
         new SniperSnapshot("item id", 555, 666, BIDDING)
     );
 

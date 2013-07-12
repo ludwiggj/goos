@@ -1,6 +1,5 @@
 package auctionsniper.ui;
 
-import auctionsniper.SniperSnapshot;
 import auctionsniper.SnipersTableModel;
 
 import javax.swing.*;
@@ -10,14 +9,15 @@ public class MainWindow extends JFrame {
   public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
   public static final String SNIPER_TABLE_NAME = "Auction Sniper Table";
 
-  private final SnipersTableModel snipers = new SnipersTableModel();
-  public MainWindow() {
+  private final SnipersTableModel snipers;
+  public MainWindow(SnipersTableModel snipers) {
     super("Auction Sniper");
     setName(MAIN_WINDOW_NAME);
     fillContentPane(makeSnipersTable());
     pack();
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setVisible(true);
+    this.snipers = snipers;
   }
 
   private void fillContentPane(JTable snipersTable) {
@@ -30,9 +30,5 @@ public class MainWindow extends JFrame {
     final JTable snipersTable = new JTable(snipers);
     snipersTable.setName(SNIPER_TABLE_NAME);
     return snipersTable;
-  }
-
-  public void sniperStatusChanged(SniperSnapshot sniperSnapshot) {
-    snipers.sniperStatusChanged(sniperSnapshot);
   }
 }
