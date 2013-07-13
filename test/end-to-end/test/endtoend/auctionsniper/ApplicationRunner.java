@@ -2,6 +2,7 @@ package test.endtoend.auctionsniper;
 
 import auctionsniper.AuctionSniper;
 import auctionsniper.Main;
+import auctionsniper.ui.MainWindow;
 
 import static auctionsniper.SniperSnapshot.INITIAL_LAST_BID;
 import static auctionsniper.SniperSnapshot.INITIAL_LAST_PRICE;
@@ -31,6 +32,9 @@ public class ApplicationRunner {
     thread.setDaemon(true);
     thread.start();
     driver = new AuctionSniperDriver(1000);
+
+    driver.hasTitle(MainWindow.APPLICATION_TITLE);
+    driver.hasColumnTitles();
 
     //NOTE: Item-id is not shown by UI at this point
     driver.showsSniperStatus(INITIAL_ITEM_ID, INITIAL_LAST_PRICE,
